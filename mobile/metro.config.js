@@ -1,17 +1,9 @@
-// Metro config for the monorepo: let Metro see the shared/ workspace sources.
-const { getDefaultConfig } = require("expo/metro-config");
-const path = require("path");
+const { getDefaultConfig } = require('expo/metro-config');
 
-const projectRoot = __dirname;
-const workspaceRoot = path.resolve(projectRoot, "..");
+/** @type {import('expo/metro-config').MetroConfig} */
+const config = getDefaultConfig(__dirname);
 
-const config = getDefaultConfig(projectRoot);
-
-config.watchFolders = [workspaceRoot];
-config.resolver.nodeModulesPaths = [
-  path.resolve(projectRoot, "node_modules"),
-  path.resolve(workspaceRoot, "node_modules"),
-];
-config.resolver.disableHierarchicalLookup = true;
+// Add 'wasm' so Metro processes .wasm files as static assets
+config.resolver.assetExts.push('wasm');
 
 module.exports = config;
